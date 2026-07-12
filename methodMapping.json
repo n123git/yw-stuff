@@ -32,10 +32,10 @@
   14051: "reserve_jump_map2", //params: map name, startingPositionX, startingPositionY, startingPositionZ
   16532: "get_game_locale", // params: (int: showExtended) if showExtended is falsy or undefined, it gets the current locale the full list is: jp (Japanese), en (English), fr (French), de (German), it (Italian), es (Spanish), zh (Chinese), ko (Korean), nl (Dutch), pt (Portugese), ru (Russian), tw (Taiwanese) but if it's 1 (truthy) it shows the lg variant too i.e. frca for French (Canada) or esus for Spanish (US) etc
   //Added Feb. 20th. (Official Names) Source: YW1 Mobile binary
-  13734: "get_by_texttype",
-  13735: "get_by_texttype_idx",
-  13736: "build_res_text",
-  13750: "delete_res_text",
+  13734: "string_get_by_texttype_idx", 
+  13735: "build_res_text", 
+  13736: "delete_res_text",
+  13750: "delete_res_text2",
   15171: "set_play_data_tbox",
   15170: "create_tbox_ext",
   15151: "get_player_name", // no params; returns the player name (string)
@@ -91,9 +91,9 @@
   15310 : "heal_party", //no params
   13792 : "set_game_variable", // params: (unk: unk, int: unk2, string: variableName, unk: unk4)
   15599: "get_watch_type",
-  1103 : "get_controller_input", // param: (int: key)
+  1103 : "ctrl_btn_held", // param: (int: key)
   13101 : "change_character", //parameters (0, baseid)
-  13733 : "get_menu_text", // params: (string: CfgBinName, hash: TextID) i.e. get_menu_text("winposeshopmenu_text", $local2) opens data\res\text\menuwinposeshopmenu_text_engb.cfg.bin and returns the string with TextID $local2
+  13733: "string_get_by_texttype",// params: (string: CfgBinName, hash: TextID) i.e("winposeshopmenu_text", $local2) opens data\res\text\menuwinposeshopmenu_text_engb.cfg.bin and returns the string with TextID $local2
   14000 : "set_global_bit_flag", //(flagID,value; must be 0 or 1)
   // update 22th November 2025 (22/11/2025); official terms used for game-specific subs i.e. GlobalBitFlag is the official name confirmed by CExpression funcs
   14011 : "set_global_byte_flag", // params: (int: FlagID, int: value; must be between 0-255)
@@ -134,7 +134,7 @@
   3433: "is_file_at_location", // params: (string: FilePath)
   // update 9th December 2025
   16527: "load_xi2", // params: (string: elName, string: FilePath)
-  1101: "get_controller_input2", // same params as other variant
+  1101: "ctrl_btn_pressed", // same params as other variant
   // update 10th December 2025
   5009: "does_element_exist", // params: (hash/string: ElementID/ElementName)
   5001: "delete_element", // params: (hash/string: ElementID/ElementName), note: it is highly recommended to use does_element_exist first before attempting to delete an element
@@ -190,7 +190,7 @@
   5043: "bind_ui_event_callback", // params: (element, callback)
   14803: "play_music3", // params: (musName) - note: maybe rename to play_music_stream?
   13732: "get_system_text", // params: (TextID) returns the system text found at data\res\text\system_text_<locale>.cfg.bin associated with that ID
-  5911: "attach_text", // params: (hash/string: el, string: text)
+  5911: "set_element_text", // params: (hash/string: el, string: text) formerly called attach_text
   // update 1st February 2026
   2110: "run_engine_command", // I debated for a while as to how to handle this; params: (int: engineCommand, any: paramA, any: paramB...) handles things from asynchronous network ops to save file I/O and more!
   // update 2nd February 2026
@@ -332,7 +332,7 @@
 
   // update 15th April 2026
   15270: "get_player_metadata", // params: (int: Metadata) 5 = total play time in seconds
-  14016: "set_trophy_data", // params: (int: TrophyData, string/hash: TrophyID, int: value) TrophyData 1 = isAchieved/TrophyBitFlag e.g. to complete Trophy 0x6BE22B04 run sub14016(1, 0x6BE22B04h, 1);
+  14016: "set_trophy_flag", // params: (int: TrophyData, string/hash: TrophyID, int: value) TrophyData 1 = TrophyGetFlag e.g. to complete Trophy 0x6BE22B04 run sub14016(1, 0x6BE22B04h, 1);
   //1110: "assign_controller_callback",
   //1113: "get_user_input_data" // params: (int: Key)
   3570: "init_sprite_container", // params: (string/hash: Element)
@@ -340,7 +340,7 @@
   3572: "finalize_sprite_container", // no params
   5243: "tween_element", // params: (string/hash: Element, int: x, int: y, int: duration, int: mode?)
   5240: "is_tween_not_over", // params: (string/hash: Element)
-  5246: "get_element_pos", // params: (string/hash: Element, variable: outX, variable: outY)
+  5246: "get_element_offset", // params: (string/hash: Element, variable: outX, variable: outY)
   5013: "set_element_parent", // params: (string/hash: ChildElement, string/hash: ParentElement)
   2211: "spawn_coroutine", // params: (string/hash: Function)
   5003: "create_element2", // params: (string: elementName, int: screen, int: XPos, int: YPos); difference between this and create_element is currently unclear
@@ -367,6 +367,9 @@
   4148: "ctrl_camera_tilt_interp",  // params: (int: layer, float: tiltAngle, float: duration, int: mode)
   4145: "is_camera_tilt_not_over", // params: (int: layer)
   5253: "set_element_pos_relative", // params: (hash/string: element, int: x, int: y) - sets the element position relative to it's parent
-  13155: "run_vehicle" // params: (int: vehicleType, int: unk, any: rideParam, hash/string: charaHandle, optional int: unkFlag) - YW3 ONWARDS! vehicleType 0 = Raft, 1 = Cart, 2 = Pony/Horse
- // 240, 51, 41
+  13155: "run_vehicle", // params: (int: vehicleType, int: unk, any: rideParam, hash/string: charaHandle, optional int: unkFlag) - YW3 ONWARDS! vehicleType 0 = Raft, 1 = Cart, 2 = Pony/Horse
+  13950: "hanako_run", // params: (string/hash: YSID) runs the Yo-kai Spot
+  19000: "is_debug", // no params; returns 1 on developer builds
+  3852: "load_xr_by_filepath"
+ // 243, 51, 41
 }
