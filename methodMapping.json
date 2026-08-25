@@ -377,6 +377,7 @@
     "3804": "mobiclip_pause",
     "6045": "object_3d_get_property",
     "6046": "object_3d_set_property",
-    "13730": "keyword_substitute"
-   // 256, 51, 41
+    "13730": "keyword_substitute",
+    "12004": "async_load_save" // in 1s only: (int loadAutosaveSlot = 0)
+   // 257, 51, 41
   }
