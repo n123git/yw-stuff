@@ -228,7 +228,7 @@
     "4227": "ctrl_camera_depth_range_rate_3D",
     "5046": "set_object_2d_property", // params: (string/hash: elName, int: property, numeric: propertyValue)
     "14044": "get_weather_now", // no params; official name
-    "14041": "get_weather_event_state", // params: (int: weatherEvent)
+    "14041": "get_env_time", // params: (int: timeMode) 0 = hour, 1 = minute, 2 = second, 3 = type, 4 = raw?
     "6103": "object_3d_apply_blink_effect", // params: (hash/string: target, float: intensity, float: frameDuration, int: unk3) - works on models may work on other elements
     "5100": "object_2d_opacity_animation_is_occuring", // params: (hash/string: targetElement) returns 1 if an animation is occuring else 0
     "14808": "smooth_end_bgm", // params: (string: musicName, optional int: fadeTime)
@@ -354,7 +354,6 @@
     "2223": "is_coroutine_set", // no params;
     // update 27th April 2026
     "14801": "play_music5", // params: (string/int: musName/trackNumber)
-    //"5006": "set_object_2d_input_enabled", // params: (hash/string: element, int: enabled)
     "5203": "object_2d_set_scale_animated", // params: (hash/string: element, float: scaleX, float: scaleY, int/float: duration, int: easing)
     "6002": "create_object_3d",
     "4148": "ctrl_camera_tilt_interp",  // params: (int: layer, float: tiltAngle, float: duration, int: mode)
