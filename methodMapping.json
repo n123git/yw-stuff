@@ -127,7 +127,7 @@
     "13903": "set_quest_phase", // params: (int: QuestID, int: QuestPhase) sets the QuestPhase of a Quest to the specified value; note it's up to each quest to decide what a specific questphase means; with the exception of phase of 255 which, for any quest, means that quest is complete
     "3433": "is_file_at_location", // params: (string: FilePath)
     // update 9th December 2025
-    "16527": "load_xi2", // params: (string: elName, string: FilePath)
+    "16527": "load_xi2", // params: (string: object2D, string: FilePath)
     "1101": "ctrl_btn_pressed", // same params as other variant
     // update 10th December 2025
     "5009": "object_2d_is_exist", // params: (hash/string: ElementID/ElementName)
@@ -151,35 +151,35 @@
     "13901": "get_watch_rank", // no params; 0 = E, 1 = D, 2 = C, 3 = B, 4 = A, 5 = S
     "13900": "set_watch_rank", // params: (int: rank) 0 = E, 1 = D, 2 = C, 3 = B, 4 = A, 5 = S
     "13752": "show_special_modal", // params: (int: modal, int: unk, int: param) i.e. 17, 0, 5 shows UI congratulating the player for ranking up to rank S
-    "3402": "load_img", // params: (string: elName, string: filePath)
+    "3402": "load_img", // params: (string: res, string: filePath)
     // update 20th December 2025
     "14805": "is_music_playing", // params: (string: musicName)
     "14806": "smooth_end_music", // params: (string: musicName, optional float: fadeTime, optional int: stepCount)
     "14809": "fade_out_music", // params: (string: musicName, float: duration)
-    "5430": "object_2d_assign_res", // params: (string/hash: elName, string/hash: resourceName, optional: sprX, optional: sprY)
-    "5247": "oject_2d_set_offset", // params: (string/hash: elName, int: XDelta, int: YDelta) applies an offset to the element from it's base position by XDelta piexls in the X-axis and YDelta pixels in the Y-axis. Does not stack
+    "5430": "object_2d_assign_res", // params: (string/hash: object2D, string/hash: resourceName, optional: sprX, optional: sprY)
+    "5247": "oject_2d_set_offset", // params: (string/hash: object2D, int: XDelta, int: YDelta) applies an offset to the element from it's base position by XDelta piexls in the X-axis and YDelta pixels in the Y-axis. Does not stack
     "13904": "get_quest_type", // params: (string/hash: QuestID) returns the QuestType; in YW2: 3 = Favor, 2 = Quest, 1 = Story Chapter
     "13902": "finalize_state_change", // params: (int: isFinalise) after completing a quest run sub13902(1) - also used for QRs
     // update 23rd December 2025
-    "5005": "object_2d_set_visibility", // finally decided to double check and document it; params: (hash/string: elName, int: visibility)
-    "5045": "object_2d_get_property", // params: (string/hash: elName, int: property)
+    "5005": "object_2d_set_visibility", // finally decided to double check and document it; params: (hash/string: object2D, int: visibility)
+    "5045": "object_2d_get_property", // params: (string/hash: object2D, int: property)
     // update 26th December 2025
-    "5202": "object_2d_set_scale", // params: (hash/string: elName, float: scaleX, float: scaleY)
-    "5600": "object_2d_set_anm_res", // params: (hash/string: elName, hash/string: anmRes)
+    "5202": "object_2d_set_scale", // params: (hash/string: object2D, float: scaleX, float: scaleY)
+    "5600": "object_2d_set_anm_res", // params: (hash/string: object2D, hash/string: anmRes)
     "4143": "ctrl_camera_fov", // params: (0, int: fov (radians), transitionDurationScale, interpolation)
     "4302": "ctrl_camera_shake", // params: (0, float: amplitudeX, float: amplitudeY, float: durationScale, int: shakeType)
     "4161": "ctrl_camera_near_clip", // params: (0, float: nearClip)
-    "3302": "load_sky", // loads a sky (.xk) file params: (string/hash: resName, string: filePath) i.e. sub3302("mb_res_a_sky", "sky/default");
+    "3302": "load_sky", // loads a sky (.xk) file params: (string/hash: res, string: filePath) i.e. sub3302("mb_res_a_sky", "sky/default");
     // update 4th January 2026
     "5642": "object_2d_set_anm", // params: (parentEl, anmId, XPos, YPos)
     "3501": "delete_res", // params: (anmID)
     "14802": "play_music2", // params: (musName)
-    "6009": "object_3d_is_exist", // params: (resName)
-    "6001": "delete_object_3d", // params: (resName)
+    "6009": "object_3d_is_exist", // params: (res)
+    "6001": "delete_object_3d", // params: (res)
     // update 16th Januray 2026
     "2106": "get_user_input_lock_state", // no params; getter version of set_user_input_lock_state()
-    "5241": "object_2d_get_drag_delta", // params: (elName, out_dx, out_dy) mutates the values
-    "5052": "object_2d_get_rect_bounds", // params: (elName, out_x, out_y, out_w, out_h) mutates the values
+    "5241": "object_2d_get_drag_delta", // params: (object2D, out_dx, out_dy) mutates the values
+    "5052": "object_2d_get_rect_bounds", // params: (object2D, out_x, out_y, out_w, out_h) mutates the values
     "5008": "object_2d_set_visibility2", // same params as set_element_visibility; differences are unclear (skips anim?)
     "5043": "object_2d_bind_ev_callback", // params: (element, callback)
     "14803": "play_music3", // params: (musName) - note: maybe rename to play_music_stream?
@@ -216,9 +216,9 @@
     "13407": "play_anim", // params: (hash/string: Actor, string: animName, int: unk, float: duration?)
     "13760": "get_linked_system_text", // params: (hash/string: TextID, int: Number) set Number to 0 unless you need it - similar behaviour to get_system_text()
     "13623": "is_event_not_over", // no params; checks if the currently executing event is over or not - returns 1 if executing else if no event is playing 0
-    "5242": "object_2d_move", // params: (string/hash: elName, int: XPos, int: YPos) moves the element to the specified position
+    "5242": "object_2d_move", // params: (string/hash: object2D, int: XPos, int: YPos) moves the element to the specified position
     // update 5th Februrary 2026
-    "5622": "set_object_2d_anm_res_animated", // params: (hash/string: elName, hash/string: anmRes, optional unsigned: animationNum)
+    "5622": "set_object_2d_anm_res_animated", // params: (hash/string: object2D, hash/string: anmRes, optional unsigned: animationNum)
     // update 7th Februrary 2026
     "4181": "ctrl_camera_far_clip", // params: (int: layer? set to 0, float: distance)
     "4202": "ctrl_camera_depth_level_3D", // params: (0, float: time?, float: depthLevel?, numeric: unk3)
@@ -226,7 +226,7 @@
     "4212": "ctrl_camera_depth_range_2D",
     "4222": "ctrl_camera_depth_range_3D",
     "4227": "ctrl_camera_depth_range_rate_3D",
-    "5046": "set_object_2d_property", // params: (string/hash: elName, int: property, numeric: propertyValue)
+    "5046": "set_object_2d_property", // params: (string/hash: object2D, int: property, numeric: propertyValue)
     "14044": "get_weather_now", // no params; official name
     "14041": "get_env_time", // params: (int: timeMode) 0 = hour, 1 = minute, 2 = second, 3 = type, 4 = raw?
     "6103": "object_3d_apply_blink_effect", // params: (hash/string: target, float: intensity, float: frameDuration, int: unk3) - works on models may work on other elements
@@ -271,12 +271,12 @@
     "16503": "create_telop_element_handle", // returns element handle params: (string/hash: telopResourceName, int: screen, int: XPos, int: YPos, int: unk) e.g. $object0 = sub16503("map_jump_curtain_effect", 0, 200, 4, 1010); 	$local1 = sub5800($object0, 0xD1B8BEF4h);
     "5800": "attach_object_2d_vfx", // params: (unk: handle/element, hash/string: vfx) use load_vfx first e.g. $local1 = load_vfx(0xD1B8BEF4h); $object0 = sub16503("map_jump_curtain_effect", 0, 200, 4, 1010); 	$local1 = sub5800($object0, 0xD1B8BEF4h);
     "15612": "is_vfx_loading", // no params; returns 1 if the vfx is still being loaded else 0 
-    "3401": "delete_res3", // params: (string/hash: resName) unloads the specified resource
+    "3401": "delete_res3", // params: (string/hash: res) unloads the specified resource
     "15611": "delete_vfx", // params: (string/hash: vfx)
-    "5932": "object_2d_set_text_color", // params: (string/hash: textElement, float: R | int colour, float: G, float: B) e.g. set_text_colour(0x12345678h, 6) or set_text_colour(0x12345678h, 1.0f, 0.7f, 0.3f) 
+    "5932": "object_2d_set_text_color", // params: (string/hash: object2D, float: R | int colour, float: G, float: B) e.g. set_text_colour(0x12345678h, 6) or set_text_colour(0x12345678h, 1.0f, 0.7f, 0.3f) 
     "25551": "ctrl_camera_roll", // params: (int: cameraLayer, numeric: rollAngle (radians?), numeric: duration, int: mode)
     "4103": "ctrl_camera_pos_interp", // params: (int: layer, numeric: XPos, numeric: YPos, numeric: ZPos, numeric: duration, int: mode)
-    "3701": "delete_model", // params: (string/hash: modelName)
+    "3701": "delete_model", // params: (string/hash: modobject2D)
     "4001": "delete_camera", // params: (string/hash: cameraName)
     "4123": "ctrl_camera_ref_interp", // params; (int: layer, numeric: XPos, numeric: YPos, numeric: ZPos, numeric: duration, int: mode)
     "4105": "is_camera_interp_not_over", // params: (int: layer)
@@ -348,7 +348,7 @@
     "13980": "get_gate_mode", // no params; official name, returns the gate mode as an int 0 = Battle Room, 1 = Speed Room, 2 = Expert Room, 3 = ???, 4 = Bizzare Room
     "15298": "generic_reserve_handle", // no params;
     "13906": "get_quest_item", // params: (string/hash?: QuestID, int/variable?: 0/variable? variable: outItemID, variable: outItemQty?)
-    "5437": "assign_object_2d_res_rect", // params: (string/hash: elName, string/hash: resourceName, int: x, int: y, int: width, int: height)
+    "5437": "assign_object_2d_res_rect", // params: (string/hash: object2D, string/hash: resourceName, int: x, int: y, int: width, int: height)
     "2220": "set_coroutine", // params: (string/hash: function)
     "2221": "set_coroutine_ex", // params: (string/hash: function, ...any: ...params)
     "2223": "is_coroutine_set", // no params;
@@ -378,8 +378,12 @@
     "6045": "object_3d_get_property",
     "6046": "object_3d_set_property",
     "13730": "keyword_substitute",
+
     "12004": "async_load_save", // in 1s only: (int loadAutosaveSlot = 0)
     "12003": "async_write_save",
-    "2728": "async_task_not_over"
-   // 259, 51, 41
+    "2728": "async_task_not_over",
+    "6102": "set_object_3d_opacity",
+	  "5023": "set_object_2d_priority",
+    "15500": "is_party_member_down"
+   // 262, 51, 41
   }
